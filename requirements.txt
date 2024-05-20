@@ -4,7 +4,7 @@ numpy==1.25.2
 pandas==2.0.3
 seaborn==0.13.1
 streamlit==1.34.0
-torch==2.2.1+cu121
+torch
 tqdm==4.66.4
 vaderSentiment
 transformers==4.3.2
