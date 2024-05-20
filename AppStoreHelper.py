@@ -128,30 +128,14 @@ def appanalytics(app_name, earliest_review_date, review_number):
     average_length[star-1] = np.average(star_subset['review_length'])
 
   data = {
-      'Star': possible_stars,
-      'Tr_Sent': average_transformer_sentiment,
-      'Wc_Sent': average_wordcount_sentiment,
+      'Stars': possible_stars,
+      'Transformer': average_transformer_sentiment,
+      'Wordcount': average_wordcount_sentiment,
   }
 
   data = pd.DataFrame(data)
-  data = data.melt('Star', var_name='cols', value_name='vals')
 
-  sns.set_theme(style="whitegrid")
-
-  g = sns.catplot(
-      data=data, kind='point',
-      x="Star", y="vals", hue="cols",
-      palette="dark",
-  )
-  g.despine(left=True)
-  g.set_axis_labels("Stars", "Average Sentiment")
-  g.legend.set_title("")
-  g.figure.suptitle(
-      "Review Sentiment: Testing Two Methods",
-  );
-  new_labels = ['Transformer', 'Wordcount']
-  for t, l in zip(g._legend.texts, new_labels):
-      t.set_text(l)
+  st.line_chart(data=data, x='Stars', y=['Transformer', 'Wordcount'])
 
 
   
