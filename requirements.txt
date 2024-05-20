@@ -1,5 +1,4 @@
 app_store_scraper==0.3.5
-dateutil
 matplotlib==3.7.1
 numpy==1.25.2
 pandas==2.0.3
