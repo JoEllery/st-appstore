@@ -22,6 +22,37 @@ import matplotlib.pyplot as plt
 # Import streamlit
 import streamlit as st
 
+
+def transformer_sentiment(text, tokenizer, model):
+
+  tokens = tokenizer(text, return_tensors="pt")
+  ids = tokens['input_ids']
+  attention_mask = tokens['attention_mask']
+
+  raw_score = model(ids, attention_mask).logits.detach().numpy().argmax()
+
+  if raw_score == 0:
+    return -1
+  else:
+    return 1
+
+
+def wordcount_sentiment(text, vader_sia):
+
+  raw_score = vader_sia.polarity_scores(text)['compound']
+
+  if raw_score > 0.05:
+    return 1
+  elif raw_score < -0.05:
+    return -1
+  else:
+    return 0
+
+
+def word_count(text):
+  return len(text.split())
+
+
 def appanalytics(app_name, earliest_review_date, review_number):
 
   try:
@@ -52,6 +83,11 @@ def appanalytics(app_name, earliest_review_date, review_number):
 
     use_emergency_data = True
     st.write("Scraping failed.")
+
+  tokenizer = DistilBertTokenizer.from_pretrained("AdamCodd/distilbert-base-uncased-finetuned-sentiment-amazon")
+  model = DistilBertForSequenceClassification.from_pretrained("AdamCodd/distilbert-base-uncased-finetuned-sentiment-amazon")
+
+  vader_sia = SentimentIntensityAnalyzer()
 
 
 
