@@ -95,7 +95,8 @@ def appanalytics(app_name, earliest_review_date, review_number):
 
   reviews_text = reviews['review']
 
-  bar = st.progress(0)
+  progress_text = "Running analysis."
+  bar = st.progress(0, text=progress_text)
   for r in range(len(reviews)):
 
     text = reviews_text[r]
@@ -104,7 +105,55 @@ def appanalytics(app_name, earliest_review_date, review_number):
     reviews.loc[r,'wordcount_sentiment'] = wordcount_sentiment(text, vader_sia)
     reviews.loc[r,'review_length'] = word_count(text)
 
-    bar.progress(r/len(reviews))
+    bar.progress(r/len(reviews), text=progress_text)
+  
+  bar = st.progress(1, text="Analysis done!")
+
+  possible_stars = list(range(1,6))
+  count = np.zeros(5)
+
+  average_transformer_sentiment = np.zeros(5)
+  average_wordcount_sentiment = np.zeros(5)
+  average_length = np.zeros(5)
+
+  for star in possible_stars:
+
+    mask = reviews['rating'] == star
+
+    star_subset = reviews.loc[mask]
+    count[star-1] = len(star_subset)
+
+    average_transformer_sentiment[star-1] = np.average(star_subset['transformer_sentiment'])
+    average_wordcount_sentiment[star-1] = np.average(star_subset['wordcount_sentiment'])
+    average_length[star-1] = np.average(star_subset['review_length'])
+
+  data = {
+      'Star': possible_stars,
+      'Tr_Sent': average_transformer_sentiment,
+      'Wc_Sent': average_wordcount_sentiment,
+  }
+
+  data = pd.DataFrame(data)
+  data = data.melt('Star', var_name='cols', value_name='vals')
+
+  sns.set_theme(style="whitegrid")
+
+  g = sns.catplot(
+      data=data, kind='point',
+      x="Star", y="vals", hue="cols",
+      palette="dark",
+  )
+  g.despine(left=True)
+  g.set_axis_labels("Stars", "Average Sentiment")
+  g.legend.set_title("")
+  g.figure.suptitle(
+      "Review Sentiment: Testing Two Methods",
+      fontsize=15,
+      fontdict={"weight": "bold"}
+  );
+  new_labels = ['Transformer', 'Wordcount']
+  for t, l in zip(g._legend.texts, new_labels):
+      t.set_text(l)
 
 
   
