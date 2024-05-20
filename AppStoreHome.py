@@ -1,4 +1,5 @@
 import streamlit as st
+import AppStoreHelper
 
 st.set_page_config(page_title="App Store Analytics")
 st.write("Use this resource to understand how sentiment is evolving on the Apple App Store.")
@@ -13,10 +14,7 @@ class AppBot:
 
     if appname and r_num and min_date:
 
-      st.write("you entered things!")
-
-
-
+      AppStoreHelper.appanalytics(appname, min_date, r_num)
 
 
 if __name__ == "__main__":
