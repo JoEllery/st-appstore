@@ -107,7 +107,7 @@ def appanalytics(app_name, earliest_review_date, review_number):
 
     bar.progress(r/len(reviews), text=progress_text)
   
-  bar = st.progress(1, text="Analysis done!")
+  bar.progress(1.0, text="Analysis done!")
 
   possible_stars = list(range(1,6))
   count = np.zeros(5)
@@ -148,7 +148,6 @@ def appanalytics(app_name, earliest_review_date, review_number):
   g.legend.set_title("")
   g.figure.suptitle(
       "Review Sentiment: Testing Two Methods",
-      fontsize=15,
   );
   new_labels = ['Transformer', 'Wordcount']
   for t, l in zip(g._legend.texts, new_labels):
