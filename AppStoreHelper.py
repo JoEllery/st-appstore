@@ -30,7 +30,8 @@ def appanalytics(app_name, earliest_review_date, review_number):
     st.write("Incorrect date format. Using default.")
     datetime_obj = datetime.strptime("2022-01-01", "%Y-%m-%d")
 
-  if not type(review_number) == int:
-    st.write(str(type(review_number)))
+  try:
+    review_number = int(review_number)
+  except ValueError as e:
     st.write("Incorrect review number format. Using default.")
     review_number = 200
