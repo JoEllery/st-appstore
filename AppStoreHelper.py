@@ -93,16 +93,19 @@ def appanalytics(app_name, earliest_review_date, review_number):
     reviews = pd.read_csv("ubereats_data.csv")
     st.write("Using emergency data.")
 
-  # Add new columns to the table and apply each function to the reviews.
   reviews_text = reviews['review']
 
-  for r in tqdm(range(len(reviews))):
+  bar = st.progress(0)
+  for r in range(len(reviews)):
 
     text = reviews_text[r]
 
     reviews.loc[r,'transformer_sentiment'] = transformer_sentiment(text, tokenizer, model)
     reviews.loc[r,'wordcount_sentiment'] = wordcount_sentiment(text, vader_sia)
     reviews.loc[r,'review_length'] = word_count(text)
+
+    bar.progress(r/len(reviews))
+
 
   
 
