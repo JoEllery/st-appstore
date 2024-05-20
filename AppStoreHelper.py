@@ -149,7 +149,6 @@ def appanalytics(app_name, earliest_review_date, review_number):
   g.figure.suptitle(
       "Review Sentiment: Testing Two Methods",
       fontsize=15,
-      fontdict={"weight": "bold"}
   );
   new_labels = ['Transformer', 'Wordcount']
   for t, l in zip(g._legend.texts, new_labels):
