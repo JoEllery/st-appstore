@@ -35,3 +35,40 @@ def appanalytics(app_name, earliest_review_date, review_number):
   except ValueError as e:
     st.write("Incorrect review number format. Using default.")
     review_number = 200
+
+  try:
+
+    appstore_scraper = AppStore(country='us', app_name=app_name)
+    appstore_scraper.review(how_many=review_number, after=datetime_obj)
+    reviews = pd.DataFrame(appstore_scraper.reviews)
+
+    if len(reviews) < review_number:
+      raise ValueError
+
+    use_emergency_data = False
+    st.write("Scraping successful.")
+
+  except ValueError as e:
+
+    use_emergency_data = True
+    st.write("Scraping failed.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
