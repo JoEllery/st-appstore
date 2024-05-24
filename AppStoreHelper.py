@@ -131,6 +131,12 @@ def appanalytics(app_name, earliest_review_date, review_number):
     average_transformer_sentiment[star-1] = np.average(star_subset['transformer_sentiment'])
     average_wordcount_sentiment[star-1] = np.average(star_subset['wordcount_sentiment'])
     average_length[star-1] = np.average(star_subset['review_length'])  
+
+  ### Handle maybe not all stars being in sample ###
+
+  average_transformer_sentiment = np.nan_to_num(average_transformer_sentiment, nan=0.0)
+  average_wordcount_sentiment = np.nan_to_num(average_wordcount_sentiment, nan=0.0)
+  average_length = np.nan_to_num(average_length, nan=0.0)
   
   ### Now, plot the data we just gathered. ###
   
@@ -231,6 +237,10 @@ def appanalytics(app_name, earliest_review_date, review_number):
     average_wordcount_sentiment_d[b] = np.average(date_subset['wordcount_sentiment'])
     average_stars_d[b] = np.average(date_subset['rating'])
 
+  average_transformer_sentiment_d = np.nan_to_num(average_transformer_sentiment_d, nan=0.0)
+  average_wordcount_sentiment_d = np.nan_to_num(average_wordcount_sentiment_d, nan=0.0)
+  average_stars_d = np.nan_to_num(average_stars_d, nan=0.0)
+  
   ### Once more we plot! ###
   
   # Gather the data together for easy plotting.
