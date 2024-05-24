@@ -196,8 +196,8 @@ def appanalytics(app_name, earliest_review_date, review_number):
   fineness = 2
   
   # Get the dates of each reviews as a datetime object (a computable date) rather than text.
-  dates = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S") for d in analyzed_reviews['date']]
-  analyzed_reviews['datetime'] = dates
+  dates = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S") for d in reviews['date']]
+  reviews['datetime'] = dates
   
   # Get the start and end dates of the reviews.
   start_date = min(dates)
@@ -227,10 +227,10 @@ def appanalytics(app_name, earliest_review_date, review_number):
     mids.append((min_d + (max_d - min_d) / 2).strftime("%B %Y"))
     
     # ... Mark which reviews fall into the bucket of dates ...
-    mask = (analyzed_reviews['datetime'] >= min_d) & (analyzed_reviews['datetime'] < max_d)
+    mask = (reviews['datetime'] >= min_d) & (reviews['datetime'] < max_d)
     
     # ... Subset the data based on the relevant dates ...
-    date_subset = analyzed_reviews.loc[mask]
+    date_subset = reviews.loc[mask]
     
     # ... And average the statistics of interest over the subset.
     average_transformer_sentiment_d[b] = np.average(date_subset['transformer_sentiment'])
