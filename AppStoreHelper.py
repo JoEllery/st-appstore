@@ -196,7 +196,7 @@ def appanalytics(app_name, earliest_review_date, review_number):
   fineness = 2
   
   # Get the dates of each reviews as a datetime object (a computable date) rather than text.
-  dates = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S") for d in reviews['date']]
+  dates = [datetime.strptime(str(d), "%Y-%m-%d %H:%M:%S") for d in reviews['date']]
   reviews['datetime'] = dates
   
   # Get the start and end dates of the reviews.
